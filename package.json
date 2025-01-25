@@ -10,9 +10,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chillout": "^5.0.0",
     "colors": "^1.4.0",
-    "discord-html-transcripts": "^3.1.5",
     "discord.js": "^14.12.1",
-    "moment": "^2.29.4"
+    "moment": "^2.29.4",
+    "plsargs": "^0.1.6",
+    "recursive-readdir": "^2.2.3",
+    "stuffs": "^0.1.42"
   }
 }

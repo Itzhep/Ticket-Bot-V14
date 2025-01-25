@@ -10,7 +10,7 @@ module.exports = {
         if(interaction.customId == 'ticket') {
             
             let ticket = interaction.guild.channels.create({
-                name: `Select a category`,
+                name: `انتخواب موضوع`,
                 type: ChannelType.GuildText,
                 parent: config.ticket_category,
                 permissionOverwrites: [
@@ -27,8 +27,8 @@ module.exports = {
             }).then((c) => {
                 c.send({
                     embeds: [{
-                        title: "Ticket System",
-                        description: "Please select a category for your ticket !",
+                        title: "تیکت", 
+                        description: "لطفا دسته بندی تیکت خود را انتخاب کنید!",
                         color: Colors.Blurple,
                     }],
                     components: [
@@ -36,26 +36,26 @@ module.exports = {
                         .addComponents(
                             new StringSelectMenuBuilder()
                             .setCustomId('category')
-                            .setPlaceholder('Select a category')
+                            .setPlaceholder('انتخاب دسته بندی')
                             .addOptions([
                                 {
-                                    label: 'Report',
-                                    description: 'Report a user',
-                                    value: 'report',
-                                    emoji: '🐛'
+                                    label: 'خرید',
+                                    description: 'خرید محصول',
+                                    value: 'other',
+                                    emoji: '🛒'
                                 },
                                 {
-                                    label: 'Question',
-                                    description: 'any question',
+                                    label: 'سوال',
+                                    description: 'هر گونه سوال',
                                     value: 'question',
                                     emoji: '📝'
                                 },
                                 {
-                                    label: 'Other',
-                                    description: 'Other',
-                                    value: 'other',
-                                    emoji: '📁'
-                                }
+                                    label: 'گزارش',
+                                    description: 'گزارش کاربر',
+                                    value: 'report',
+                                    emoji: '🐛'
+                                },
                             ])
                         )
                     ]
@@ -69,7 +69,7 @@ module.exports = {
                 });
             });
             interaction.reply({
-                content: `:white_check_mark: | Your ticket has been created !`,
+                content: `:white_check_mark: | تیکت شما ساخته شد !`,
                 ephemeral: true
             })
         }

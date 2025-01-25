@@ -1,6 +1,7 @@
 const { ActionRowBuilder, ChannelType, Colors, ButtonBuilder, ButtonStyle, PermissionFlagsBits, } = require('discord.js')
 const config = require('../../settings/config');
 
+
 module.exports = {
     name: 'interactionCreate',
     once: false,
@@ -9,9 +10,9 @@ module.exports = {
 
         let support_team = config.support_team;
 
-        let AlreadyChannel = interaction.guild.channels.cache.find(c => c.topic == interaction.user.id);
+        let AlreadyChannel = interaction.guild.channels.fetch().then(channels => channels.find(c => c.topic == interaction.user.id));
         if (AlreadyChannel) return interaction.reply({
-            content: ":x: | You already have a ticket open !",
+            content: "❌ | شما در حال حاضر یک تیکت باز دارید!",
             ephemeral: true
         });
 
@@ -38,21 +39,21 @@ module.exports = {
                         deny: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages, PermissionFlagsBits.MentionEveryone]
                     }
                 ]
-            }).then((c) => {
+            }).then(async (c) => {
                 c.send({
                     embeds: [{
-                        title: "Ticket System",
-                        description: `Welcome to your ticket ${interaction.user} !\nA staff will come and take care of you as soon as possible !`,
+                        title: "تیکت",
+                        description: `${interaction.user} به تیکت خود خوش آمدید!\nکارکنان در اسرع وقت به شما پاسخ خواهند داد!\n `,
                         color: Colors.Blurple,
                         footer: {
-                            text: "Ticket System"
+                            text: "تیکت"
                         },
                         timestamp: new Date()
                     }],
                     components: [
                         new ActionRowBuilder()
                         .addComponents(
-                            new ButtonBuilder() .setCustomId('close') .setLabel('Close') .setStyle(ButtonStyle.Danger)
+                            new ButtonBuilder() .setCustomId('close') .setLabel('بستن') .setStyle(ButtonStyle.Danger)
                         )
                     ]
                 });
@@ -63,6 +64,7 @@ module.exports = {
                         msg.delete(), 1000
                     })
                 });
+                await client.emit('ticketUpdate');
             });
         } 
         else if (interaction.values[0] === "question") {
@@ -88,21 +90,21 @@ module.exports = {
                         deny: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages, PermissionFlagsBits.MentionEveryone]
                     }
                 ]
-            }).then((c) => {
+            }).then(async (c) => {
                 c.send({
                     embeds: [{
-                        title: "Ticket System",
-                        description: `Welcome to your ticket ${interaction.user} !\nA staff will come and take care of you as soon as possible !`,
+                        title: "تیکت",
+                        description: `${interaction.user} به تیکت خود خوش آمدید!\nکارکنان در اسرع وقت به شما پاسخ خواهند داد!`,
                         color: Colors.Blurple,
                         footer: {
-                            text: "Ticket System"
+                            text: "تیکت"
                         },
                         timestamp: new Date()
                     }],
                     components: [
                         new ActionRowBuilder()
                         .addComponents(
-                            new ButtonBuilder() .setCustomId('close') .setLabel('Close') .setStyle(ButtonStyle.Danger)
+                            new ButtonBuilder() .setCustomId('close') .setLabel('بستن') .setStyle(ButtonStyle.Danger)
                         )
                     ]
                 });
@@ -113,6 +115,7 @@ module.exports = {
                         msg.delete(), 1000
                     })
                 });
+                await client.emit('ticketUpdate');
             });
         }
         else if (interaction.values[0] === "other") {
@@ -138,21 +141,21 @@ module.exports = {
                         deny: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessages, PermissionFlagsBits.MentionEveryone]
                     }
                 ]
-            }).then((c) => {
+            }).then(async (c) => {
                 c.send({
                     embeds: [{
-                        title: "Ticket System",
-                        description: `Welcome to your ticket ${interaction.user} !\nA staff will come and take care of you as soon as possible !`,
+                        title: "تیکت",
+                        description: `${interaction.user} به تیکت خود خوش آمدید!\nکارکنان در اسرع وقت به شما پاسخ خواهند داد!`,
                         color: Colors.Blurple,
                         footer: {
-                            text: "Ticket System"
+                            text: "تیکت"
                         },
                         timestamp: new Date()
                     }],
                     components: [
                         new ActionRowBuilder()
                         .addComponents(
-                            new ButtonBuilder() .setCustomId('close') .setLabel('Close') .setStyle(ButtonStyle.Danger)
+                            new ButtonBuilder() .setCustomId('close') .setLabel('بستن') .setStyle(ButtonStyle.Danger)
                         )
                     ]
                 });
@@ -163,6 +166,7 @@ module.exports = {
                         msg.delete(), 1000
                     })
                 });
+                await client.emit('ticketUpdate');
             });
         }
     }

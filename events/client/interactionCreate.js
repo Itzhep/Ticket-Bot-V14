@@ -9,7 +9,10 @@ module.exports = {
 
                 const cmd = client.slashCommands.get(interaction.commandName);
                 if(!cmd) {
-                    return interaction.channel.send({ content: `\`[⌛]\` ${interaction.member}, an error has occured.` })
+                    return interaction.reply({ 
+                        content: "An error occurred while processing your command.",
+                        ephemeral: true 
+                    }).catch(console.error);
                 }
 
                 const args = [];
@@ -25,7 +28,15 @@ module.exports = {
                 interaction.member = interaction.guild.members.cache.get(interaction.user.id);
 
                 console.log(`[SLASH COMMANDS] `.bold.red + `/${cmd.name}`.bold.blue + ` has been executed`.bold.white)
-                cmd.execute(client, interaction);
+                
+                // Use run if it exists, otherwise try execute
+                if (typeof cmd.run === 'function') {
+                    await cmd.run(client, interaction);
+                } else if (typeof cmd.execute === 'function') {
+                    await cmd.execute(client, interaction);
+                } else {
+                    throw new Error(`Command ${cmd.name} has no run or execute function`);
+                }
             }
         }
 
